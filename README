@@ -1,0 +1,148 @@
+libtar
+------------------------------------------
+libtar is a C library for manipulating POSIX tar files. It handles 
+adding and extracting files to/from a tar archive.
+
+Runtime requirements:
+  cygwin-1.5.24-2
+  zlib-1.2.3-2
+
+Build requirements:
+  cygwin-1.5.24-2
+  autoconf2.5-2.61-1
+  automake1.10-1.10-1
+  binutils-20060817-1
+  cygport-0.3.5-1
+  gawk-3.1.5-4
+  gcc-core-3.4.4-3
+  libtool1.5-1.5.23a-2
+  make-3.81-1
+  sed-4.1.5-2
+
+Canonical website:
+  http://www.feep.net/libtar/
+
+Canonical download:
+  ftp://ftp.feep.net/pub/software/libtar/
+
+-------------------------------------------
+
+Build instructions:
+  unpack libtar-1.2.11-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./libtar-1.2.11-X.cygport all
+
+This will create:
+  /usr/src/libtar-1.2.11-X-src.tar.bz2
+  /usr/src/libtar-1.2.11-X.tar.bz2
+  /usr/src/libtar-devel-1.2.11-X.tar.bz2
+  /usr/src/libtar0-1.2.11-X.tar.bz2
+
+-------------------------------------------
+
+Files included in the binary packages:
+
+(libtar)
+  /usr/bin/libtar.exe
+  /usr/share/doc/Cygwin/libtar-1.2.11.README
+  /usr/share/doc/libtar-1.2.11/COPYING
+  /usr/share/doc/libtar-1.2.11/COPYRIGHT
+  /usr/share/doc/libtar-1.2.11/ChangeLog
+  /usr/share/doc/libtar-1.2.11/INSTALL
+  /usr/share/doc/libtar-1.2.11/README
+  /usr/share/doc/libtar-1.2.11/TODO
+  /usr/share/man/man3/TH_ISBLK.3.gz
+  /usr/share/man/man3/TH_ISCHR.3.gz
+  /usr/share/man/man3/TH_ISDIR.3.gz
+  /usr/share/man/man3/TH_ISFIFO.3.gz
+  /usr/share/man/man3/TH_ISLNK.3.gz
+  /usr/share/man/man3/TH_ISLONGLINK.3.gz
+  /usr/share/man/man3/TH_ISLONGNAME.3.gz
+  /usr/share/man/man3/TH_ISREG.3.gz
+  /usr/share/man/man3/TH_ISSYM.3.gz
+  /usr/share/man/man3/libtar_hash_add.3.gz
+  /usr/share/man/man3/libtar_hash_del.3.gz
+  /usr/share/man/man3/libtar_hash_free.3.gz
+  /usr/share/man/man3/libtar_hash_getkey.3.gz
+  /usr/share/man/man3/libtar_hash_new.3.gz
+  /usr/share/man/man3/libtar_hash_next.3.gz
+  /usr/share/man/man3/libtar_hash_prev.3.gz
+  /usr/share/man/man3/libtar_hash_search.3.gz
+  /usr/share/man/man3/libtar_list_add.3.gz
+  /usr/share/man/man3/libtar_list_add_str.3.gz
+  /usr/share/man/man3/libtar_list_del.3.gz
+  /usr/share/man/man3/libtar_list_dup.3.gz
+  /usr/share/man/man3/libtar_list_free.3.gz
+  /usr/share/man/man3/libtar_list_merge.3.gz
+  /usr/share/man/man3/libtar_list_new.3.gz
+  /usr/share/man/man3/libtar_list_next.3.gz
+  /usr/share/man/man3/libtar_list_prev.3.gz
+  /usr/share/man/man3/libtar_list_search.3.gz
+  /usr/share/man/man3/tar_append_eof.3.gz
+  /usr/share/man/man3/tar_append_file.3.gz
+  /usr/share/man/man3/tar_append_regfile.3.gz
+  /usr/share/man/man3/tar_append_tree.3.gz
+  /usr/share/man/man3/tar_block_read.3.gz
+  /usr/share/man/man3/tar_block_write.3.gz
+  /usr/share/man/man3/tar_close.3.gz
+  /usr/share/man/man3/tar_extract_all.3.gz
+  /usr/share/man/man3/tar_extract_blockdev.3.gz
+  /usr/share/man/man3/tar_extract_chardev.3.gz
+  /usr/share/man/man3/tar_extract_dir.3.gz
+  /usr/share/man/man3/tar_extract_fifo.3.gz
+  /usr/share/man/man3/tar_extract_file.3.gz
+  /usr/share/man/man3/tar_extract_glob.3.gz
+  /usr/share/man/man3/tar_extract_hardlink.3.gz
+  /usr/share/man/man3/tar_extract_regfile.3.gz
+  /usr/share/man/man3/tar_extract_symlink.3.gz
+  /usr/share/man/man3/tar_fd.3.gz
+  /usr/share/man/man3/tar_fdopen.3.gz
+  /usr/share/man/man3/tar_open.3.gz
+  /usr/share/man/man3/tar_set_file_perms.3.gz
+  /usr/share/man/man3/tar_skip_regfile.3.gz
+  /usr/share/man/man3/th_finish.3.gz
+  /usr/share/man/man3/th_get_crc.3.gz
+  /usr/share/man/man3/th_get_devmajor.3.gz
+  /usr/share/man/man3/th_get_devminor.3.gz
+  /usr/share/man/man3/th_get_gid.3.gz
+  /usr/share/man/man3/th_get_linkname.3.gz
+  /usr/share/man/man3/th_get_mode.3.gz
+  /usr/share/man/man3/th_get_mtime.3.gz
+  /usr/share/man/man3/th_get_pathname.3.gz
+  /usr/share/man/man3/th_get_size.3.gz
+  /usr/share/man/man3/th_get_uid.3.gz
+  /usr/share/man/man3/th_print.3.gz
+  /usr/share/man/man3/th_print_long_ls.3.gz
+  /usr/share/man/man3/th_read.3.gz
+  /usr/share/man/man3/th_set_device.3.gz
+  /usr/share/man/man3/th_set_from_stat.3.gz
+  /usr/share/man/man3/th_set_group.3.gz
+  /usr/share/man/man3/th_set_link.3.gz
+  /usr/share/man/man3/th_set_mode.3.gz
+  /usr/share/man/man3/th_set_path.3.gz
+  /usr/share/man/man3/th_set_type.3.gz
+  /usr/share/man/man3/th_set_user.3.gz
+  /usr/share/man/man3/th_write.3.gz
+
+(libtar0)
+  /usr/bin/cygtar-0.dll
+
+(libtar-devel)
+  /usr/include/libtar.h
+  /usr/include/libtar_listhash.h
+  /usr/lib/libtar.a
+  /usr/lib/libtar.dll.a
+  /usr/lib/libtar.la
+
+------------------
+
+Port Notes:
+
+----- version 1.2.11-1 -----
+Initial release for Cygwin.
+
+
+Cygwin port maintained by:
+http://sourceware.org/cygwinports/

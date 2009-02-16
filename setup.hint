@@ -1,0 +1,5 @@
+category: Archive
+requires: cygwin libtar0 zlib
+sdesc: "tar file manipulation library (example program)"
+ldesc: "libtar is a C library for manipulating POSIX tar files. It 
+handles adding and extracting files to/from a tar archive."

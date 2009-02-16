@@ -1,0 +1,145 @@
+--- origsrc/libtar-1.2.11/Makefile.am	1969-12-31 18:00:00.000000000 -0600
++++ src/libtar-1.2.11/Makefile.am	2007-08-03 17:22:46.453125000 -0500
+@@ -0,0 +1,3 @@
++SUBDIRS = lib libtar doc
++
++EXTRA_DIST = AUTHORS COPYRIGHT ChangeLog ChangeLog-1.0.x NEWS README TODO
+--- origsrc/libtar-1.2.11/acinclude.m4	1969-12-31 18:00:00.000000000 -0600
++++ src/libtar-1.2.11/acinclude.m4	2007-08-03 17:22:42.093750000 -0500
+@@ -0,0 +1,3 @@
++m4_include([autoconf/aclocal.m4])
++m4_include([compat/module.ac])
++m4_include([listhash/module.ac])
+--- origsrc/libtar-1.2.11/configure.ac	2003-03-02 18:13:37.000000000 -0600
++++ src/libtar-1.2.11/configure.ac	2007-08-03 17:50:36.218750000 -0500
+@@ -9,12 +9,13 @@
+ All rights reserved.
+ ]])
+ AC_CONFIG_SRCDIR([lib/libtar.h])
++AM_INIT_AUTOMAKE
+ ENCAP_PKG([], [postinstall-encap])
+ 
+ 
+ dnl ### Load subdirectory modules. ##################################
+-PSG_MODULE([compat])
+-PSG_MODULE([listhash], [libtar])
++AC_CONFIG_LIBOBJ_DIR([compat])
++listhash_INIT([listhash], [libtar])
+ 
+ 
+ dnl ### Set some option defaults. ###################################
+@@ -26,21 +27,21 @@
+ 
+ 
+ dnl ### Check for compiler et al. ###################################
++AC_AIX
+ AC_PROG_CC
+-AC_PROG_RANLIB
++AC_PROG_LIBTOOL
+ AC_PROG_INSTALL
+ AC_PROG_LN_S
+ AC_PROG_MAKE_SET
+ 
+ 
+ dnl ### Compiler characteristics. ##################################
+-AC_AIX
+ AC_C_CONST
+ 
+ 
+ dnl ### Checks for header files. ###################################
+ AC_HEADER_STDC
+-AC_CHECK_HEADERS([unistd.h])
++AC_CHECK_HEADERS([unistd.h tar.h])
+ AC_HEADER_MAJOR
+ PSG_REPLACE_TYPE([major_t], [unsigned int], [
+   #include <sys/types.h>
+--- origsrc/libtar-1.2.11/lib/Makefile.am	1969-12-31 18:00:00.000000000 -0600
++++ src/libtar-1.2.11/lib/Makefile.am	2007-08-03 17:58:30.750000000 -0500
+@@ -0,0 +1,24 @@
++AUTOMAKE_OPTIONS = subdir-objects
++
++INCLUDES = -I$(top_srcdir)/compat -I../listhash
++
++lib_LTLIBRARIES = libtar.la
++
++libtar_la_SOURCES = \
++	append.c \
++	block.c \
++	decode.c \
++	encode.c \
++	extract.c \
++	handle.c \
++	internal.h \
++	output.c \
++	util.c \
++	wrapper.c \
++	../listhash/libtar_list.c \
++	../listhash/libtar_hash.c
++
++libtar_la_LDFLAGS = -no-undefined
++libtar_la_LIBADD = $(LTLIBOBJS)
++
++include_HEADERS = libtar.h ../listhash/libtar_listhash.h
+--- origsrc/libtar-1.2.11/lib/libtar.h	2007-08-03 16:53:21.734375000 -0500
++++ src/libtar-1.2.11/lib/libtar.h	2007-08-03 16:56:24.312500000 -0500
+@@ -15,10 +15,43 @@
+ 
+ #include <sys/types.h>
+ #include <sys/stat.h>
++
++#ifdef HAVE_TAR_H
+ #include <tar.h>
++#else
++/* General definitions */
++#define TMAGIC 		"ustar" /* ustar plus null byte. */
++#define TMAGLEN 	6 	/* Length of the above. */
++#define TVERSION 	"00"	/* 00 without a null byte. */
++#define TVERSLEN	2	/* Length of the above. */
++/* Typeflag field definitions */
++#define REGTYPE 	'0'	/* Regular file. */
++#define AREGTYPE	'\0'	/* Regular file. */
++#define LNKTYPE		'1'	/* Link. */
++#define SYMTYPE		'2'	/* Symbolic link. */
++#define CHRTYPE		'3'	/* Character special. */
++#define BLKTYPE		'4'	/* Block special. */
++#define DIRTYPE		'5'	/* Directory. */
++#define FIFOTYPE	'6'	/* FIFO special. */
++#define CONTTYPE	'7'	/* Reserved. */
++/* Mode field bit definitions (octal) */
++#define	TSUID		04000	/* Set UID on execution. */
++#define	TSGID		02000	/* Set GID on execution. */
++#define	TSVTX		01000	/* On directories, restricted deletion flag. */
++#define	TUREAD		00400	/* Read by owner. */
++#define	TUWRITE		00200	/* Write by owner. */
++#define	TUEXEC		00100	/* Execute/search by owner. */
++#define	TGREAD		00040	/* Read by group. */
++#define	TGWRITE		00020	/* Write by group. */
++#define	TGEXEC		00010	/* Execute/search by group. */
++#define	TOREAD		00004	/* Read by other. */
++#define	TOWRITE		00002	/* Write by other. */
++#define	TOEXEC		00001	/* Execute/search by other. */
++#endif /* HAVE_TAR_H */
+ 
+ #include <libtar_listhash.h>
+ 
++
+ #ifdef __cplusplus
+ extern "C"
+ {
+--- origsrc/libtar-1.2.11/libtar/Makefile.am	1969-12-31 18:00:00.000000000 -0600
++++ src/libtar-1.2.11/libtar/Makefile.am	2007-08-03 17:27:42.421875000 -0500
+@@ -0,0 +1,6 @@
++INCLUDES = -I$(top_srcdir)/lib -I$(top_srcdir)/compat -I../listhash
++
++bin_PROGRAMS = libtar
++
++libtar_SOURCES = libtar.c
++libtar_LDADD = ../lib/libtar.la
+--- origsrc/libtar-1.2.11/listhash/module.ac	2002-09-06 14:43:58.000000000 -0500
++++ src/libtar-1.2.11/listhash/module.ac	2007-08-03 17:24:14.359375000 -0500
+@@ -1,4 +1,4 @@
+-AC_DEFUN(subdir[_INIT], [
++AC_DEFUN([listhash_INIT], [
+   AC_REQUIRE([COMPAT_FUNC_STRLCPY])
+   AC_REQUIRE([COMPAT_FUNC_STRSEP])
+ 
